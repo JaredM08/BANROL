@@ -1,0 +1,24 @@
+name: Compilar BANROL.exe
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Compilar el .exe
+        run: pyinstaller --onefile --name BANROL --add-data "templates;templates" banrol_motor.py
+      - name: Subir el .exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: BANROL-windows
+          path: dist/BANROL.exe
