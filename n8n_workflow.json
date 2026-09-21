@@ -1,0 +1,70 @@
+{
+  "name": "BANROL SEMANAL - auto",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": { "item": [ { "mode": "everyMinute" } ] },
+        "simple": false,
+        "filters": { "q": "subject:(banrol semanal) has:attachment filename:pdf is:unread" },
+        "options": { "downloadAttachments": true }
+      },
+      "id": "trigger",
+      "name": "Gmail Trigger (banrol semanal)",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [ 240, 300 ],
+      "credentials": { "gmailOAuth2": { "id": "REEMPLAZAR", "name": "Gmail" } }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://TU_HOST:8000/generate",
+        "contentType": "multipart-form-data",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "parameterType": "formBinaryData", "name": "pdf1", "inputDataFieldName": "attachment_0" },
+            { "parameterType": "formBinaryData", "name": "pdf2", "inputDataFieldName": "attachment_1" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "motor",
+      "name": "Motor (microservicio /generate)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [ 520, 300 ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// arma los 2 Excel SUELTOS como binarios (sin zip)\nconst files = $input.first().json.files;\nconst binary = {};\nfiles.forEach((f, i) => {\n  binary['f' + i] = {\n    data: f.b64,\n    fileName: f.filename,\n    mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'\n  };\n});\nreturn [{ json: { date: $input.first().json.date }, binary }];"
+      },
+      "id": "tobin",
+      "name": "Archivos sueltos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [ 800, 300 ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger (banrol semanal)').item.json.id }}",
+        "message": "Reporte BANROL generado automáticamente. Adjunto WEEKS OF COVERAGE y MIN-MAX.",
+        "options": { "attachmentsUi": { "attachmentsBinary": [ { "property": "f0" }, { "property": "f1" } ] } }
+      },
+      "id": "reply",
+      "name": "Responder correo con Excel",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [ 1080, 300 ],
+      "credentials": { "gmailOAuth2": { "id": "REEMPLAZAR", "name": "Gmail" } }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger (banrol semanal)": { "main": [ [ { "node": "Motor (microservicio /generate)", "type": "main", "index": 0 } ] ] },
+    "Motor (microservicio /generate)": { "main": [ [ { "node": "Archivos sueltos", "type": "main", "index": 0 } ] ] },
+    "Archivos sueltos": { "main": [ [ { "node": "Responder correo con Excel", "type": "main", "index": 0 } ] ] }
+  },
+  "settings": {}
+}

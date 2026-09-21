@@ -1,0 +1,30 @@
+========================================
+  BANROL — programa local (uso en tu PC)
+========================================
+
+Subes los 2 PDF (inv705 + inv315) y te da los 2 Excel editados.
+No necesita internet, ni correo, ni servidor.
+
+------ REQUISITO (una sola vez) ------
+Tener Python instalado:
+  - Windows: descarga de https://www.python.org/downloads/
+             (marca la casilla "Add Python to PATH" al instalar)
+  - Mac: normalmente ya viene; si no: https://www.python.org/downloads/
+
+------ CÓMO USARLO ------
+1. Doble clic en:
+     - Windows:  INICIAR_WINDOWS.bat
+     - Mac:      INICIAR_MAC.command
+   (La primera vez tarda un poco: instala lo necesario.)
+
+2. Se abre tu navegador en http://localhost:8000
+
+3. Da clic para elegir los 2 PDF, luego "Generar Excel".
+
+4. Descarga WEEKS_OF_COVERAGE y MIN-MAX. Listo.
+
+Para cerrarlo: cierra la ventanita negra (Windows) o la terminal (Mac).
+
+------ NOTA ------
+El orden de los PDF no importa: el programa detecta cuál es cuál.
+La fecha se saca sola del inv705.

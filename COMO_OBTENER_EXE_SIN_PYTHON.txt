@@ -1,0 +1,34 @@
+# Obtener BANROL.exe SIN instalar Python (se compila en la nube)
+
+GitHub compila el .exe por ti gratis. Tú no instalas nada en tu PC.
+Al final bajas **BANROL.exe** y con doble clic se abre el programa en tu navegador.
+
+## Pasos (una sola vez)
+
+1. Crea una cuenta gratis en https://github.com (si no tienes).
+
+2. Crea un repositorio nuevo:
+   - Botón **New** → nómbralo p.ej. `banrol` → **Create repository**.
+
+3. Sube los archivos de esta carpeta al repo:
+   - En el repo: **Add file → Upload files**.
+   - Arrastra TODO el contenido de `banrol_pkg` (incluida la carpeta `.github`
+     y la carpeta `templates`). Si la web no te deja arrastrar carpetas,
+     usa **GitHub Desktop** o arrastra los archivos manteniendo la estructura.
+   - **Commit changes**.
+
+4. Ve a la pestaña **Actions** del repo.
+   - Verás el trabajo "Compilar BANROL.exe" corriendo (o dale **Run workflow**).
+   - Espera ~2-3 minutos a que salga la palomita verde ✔.
+
+5. Entra al trabajo terminado → sección **Artifacts** → descarga **BANROL-windows**.
+   - Adentro está **BANROL.exe**.
+
+## Uso de aquí en adelante
+- Doble clic en **BANROL.exe** → se abre solo en el navegador.
+- Subes los 2 PDF (inv705 + inv315) → descargas los 2 Excel. Fin.
+- No necesitas Python, ni internet, ni nada más. Copia el .exe donde quieras.
+
+> Windows puede mostrar un aviso azul "Windows protegió tu PC" (SmartScreen)
+> porque el .exe no está firmado. Da clic en **Más información → Ejecutar de todas formas**.
+> Es normal en programas propios sin firma digital.
